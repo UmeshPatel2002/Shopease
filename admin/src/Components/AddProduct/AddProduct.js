@@ -8,6 +8,7 @@ const AddProduct=()=>{
   const [productDetail,setProductDetail]=useState({
     name:"",
     image:"",
+    category:"",
     new_price:"",
     old_price:""
   })
@@ -26,11 +27,11 @@ const AddProduct=()=>{
   };
 
   const add_Product = async () => {
-    // console.log(productDetail);
     let responseData;
     let product = productDetail;
    const formdata=new FormData();
    formdata.append('product',image);
+   console.log(formdata)
   
     try {
       // Uploading the image to the server
@@ -41,10 +42,8 @@ const AddProduct=()=>{
         },
         body:formdata,
       });
-  
-      
       responseData = await response.json();
-      console.log(response);
+      // console.log("response",response);
   
       if (responseData.success) {
         if (responseData.image_url) {

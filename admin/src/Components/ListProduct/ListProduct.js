@@ -24,6 +24,7 @@ const ListProduct=()=> {
         },
         body:JSON.stringify({id:id})
       })
+      // console.log(id)
       await fetchInfo();
 }
 
@@ -41,7 +42,8 @@ const ListProduct=()=> {
           <p>Remove</p>
         </div>
         <div className='listproduct-allproducts'>
-          <hr/>
+           <hr/>
+          
           {allproducts.map((product,index)=>{
             return <div key={index} className='listproduct-format-main listproduct-format'>
                    <img src={product.image} alt='' className='listproduct-product-icon'/>
@@ -49,7 +51,7 @@ const ListProduct=()=> {
                    <p>&{product.old_price}</p>
                    <p>&{product.new_price}</p>
                    <p>&{product.category}</p>
-                   <img onClick={()=>{remove_product()}} className='listproduct-remove-icon' src={cross_icon} alt=''/>
+                   <img onClick={()=>{remove_product(product.id)}} className='listproduct-remove-icon' src={cross_icon} alt=''/>
             </div>
           })}
 
