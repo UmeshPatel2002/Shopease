@@ -103,7 +103,7 @@ app.get('/popularinwomen',async(req,res)=>{
 const fetchUser=async(req,res,next)=>{
     const token=req.header('auth-token')
     if(!token){
-        res.status(401).send({errors:"please authenticat using validating"})
+        res.status(401).send({errors:"please authenticate using validating"})
     }
     else{
         try{
@@ -120,7 +120,7 @@ const fetchUser=async(req,res,next)=>{
 
   app.post('/addtocart',fetchUser,async(req,res)=>{
        let userdata=await User.findOne({_id:req.user.id})
-       userdata.cart[req.body.itemId]+=1
+       userdata.cart[req.body.itemId]+=1;
        await User.findOneAndUpdate({_id:req.user.id},{cartData:userdata})
        res.send("Added")
   })

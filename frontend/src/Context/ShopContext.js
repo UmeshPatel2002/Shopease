@@ -29,7 +29,7 @@ const ShopContextProvider=(props)=>{
                 },
                  body:"",
             })
-            .then((res)=>res.json)
+            .then((res)=>res.json())
             .then((data)=>setCartItems(data))
         }
     },[])

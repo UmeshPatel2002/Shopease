@@ -31,7 +31,7 @@ const AddProduct=()=>{
     let product = productDetail;
    const formdata=new FormData();
    formdata.append('product',image);
-   console.log(formdata)
+  //  console.log(formdata)
   
     try {
       // Uploading the image to the server

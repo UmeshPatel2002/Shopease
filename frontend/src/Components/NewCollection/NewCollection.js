@@ -5,7 +5,7 @@ const NewCollection=()=> {
     const [new_collection,setNew_collection]=useState([])
 
     useEffect(()=>{
-      fetch('htttp://localhost:4000/newcollection')
+      fetch('http://localhost:4000/newcollection')
       .then((res)=>res.json())
       .then((data)=>setNew_collection(data))
 

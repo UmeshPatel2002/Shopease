@@ -7,12 +7,11 @@ const Popular=()=> {
   const [data_product,setData_product]=useState([])
 
   useEffect(()=>{
-    fetch('htttp://localhost:4000/popularinwomen')
+    fetch('http://localhost:4000/popularinwomen')
     .then((res)=>res.json())
     .then((data)=>setData_product(data))
 
   },[])
-
 
   return (
     <div className='popular'>
