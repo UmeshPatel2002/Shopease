@@ -120,8 +120,8 @@ const fetchUser=async(req,res,next)=>{
 
   app.post('/addtocart',fetchUser,async(req,res)=>{
        let userdata=await User.findOne({_id:req.user.id})
-       userdata.cart[req.body.itemId]+=1;
-       await User.findOneAndUpdate({_id:req.user.id},{cartData:userdata})
+       userdata.cart[req.body.id]+=1;
+       await User.findOneAndUpdate({_id:req.user.id},{cart:userdata})
        res.send("Added")
   })
 
@@ -129,10 +129,10 @@ const fetchUser=async(req,res,next)=>{
 
 app.post('/removefromcart',fetchUser,async(req,res)=>{
     let userdata=await User.findOne({_id:req.user.id})
-    if(userdata.cart[req.body.itemId]>0){
-         userdata.cart[req.body.itemId]-=1
+    if(userdata.cart[req.body.id]>0){
+         userdata.cart[req.body.id]-=1
     }
-    await User.findOneAndUpdate({_id:req.user.id},{cartData:userdata})
+    await User.findOneAndUpdate({_id:req.user.id},{cart:userdata})
     res.send("Removed")
 })
 

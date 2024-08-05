@@ -14,7 +14,7 @@ const userSchema = new Schema(
         password:{
             type:String,
         },
-        cardData:{
+        cart:{
             type:Object,
         },
         date:{
