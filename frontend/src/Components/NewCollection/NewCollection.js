@@ -8,6 +8,7 @@ const NewCollection=()=> {
       fetch('http://localhost:4000/newcollection')
       .then((res)=>res.json())
       .then((data)=>setNew_collection(data))
+      .catch((error) => console.error('Error fetching new collection item:', error));
 
     },[])
 

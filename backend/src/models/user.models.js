@@ -14,9 +14,9 @@ const userSchema = new Schema(
         password:{
             type:String,
         },
-        cart:{
-            type:Object,
-        },
+        // cart:{
+        //     type:Object,
+        // },
         date:{
             type:Date,
             default:Date.now(),

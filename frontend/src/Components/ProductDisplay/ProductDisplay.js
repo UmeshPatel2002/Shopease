@@ -7,18 +7,18 @@ import { ShopContext } from '../../Context/ShopContext';
 function ProductDisplay(props) {
     const {product}=props;
     const {addTocart,cartItems}=useContext(ShopContext)
-    console.log(cartItems)
+    console.log("particular product",product)
   return (
     <div className='productdisplay'>
         <div className='productdisplay-left'>
             <div className='productdisplay-img-list'>
-                <img src={product.image} alt=''/>
-                <img src={product.image} alt='' />
-                <img src={product.image} alt=''/>
-                <img src={product.image} alt=''/>
+                <img src={product?.image} alt=''/>
+                <img src={product?.image} alt='' />
+                <img src={product?.image} alt=''/>
+                <img src={product?.image} alt=''/>
             </div>
             <div className='productdisplay-img'>
-                <img className='productdisplay-main-img' src={product.image} alt=''/>
+                <img className='productdisplay-main-img' src={product?.image} alt=''/>
             </div>
         </div>
         <div className='productdisplay-right'>
@@ -32,8 +32,8 @@ function ProductDisplay(props) {
             <p>122</p>
             </div>
             <div className='productdisplay-right-prices'>
-               <div className='productdisplay-right-price-old'>${product.old_price}</div>
-               <div className='productdisplay-right-price-new'>${product.new_price}</div>
+               <div className='productdisplay-right-price-old'>${product?.old_price}</div>
+               <div className='productdisplay-right-price-new'>${product?.new_price}</div>
             </div>
             <div className='productdisplay-right-description'>
                 A lightweight, usually knitted, pullover shirt, close-fitting and with 
@@ -49,7 +49,7 @@ function ProductDisplay(props) {
                      <div>XXL</div>
                 </div>
             </div>
-            <button onClick={()=>{addTocart(product.id)}}>ADD TO CART</button>
+            <button onClick={()=>{addTocart(product?._id)}}>ADD TO CART</button>
             <p className='productdisplay-right-category'><span>Category:<span>Women, T-Shirt.CropTop</span></span></p>
             <p className='productdisplay-right-category'><span>Tags:<span>Modern, Latest</span></span></p>
 

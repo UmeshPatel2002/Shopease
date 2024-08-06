@@ -6,11 +6,15 @@ import Item from '../Items/Item'
 const Popular=()=> {
   const [data_product,setData_product]=useState([])
 
-  useEffect(()=>{
-    fetch('http://localhost:4000/popularinwomen')
+  const popularitem=async()=>{
+    await fetch('http://localhost:4000/popularinwomen')
     .then((res)=>res.json())
     .then((data)=>setData_product(data))
+    .catch((error) => console.error('Error fetching popular items:', error));
+  }
 
+  useEffect(()=>{
+    popularitem();
   },[])
 
   return (

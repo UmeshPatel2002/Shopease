@@ -1,4 +1,5 @@
 import React, {createContext, useEffect, useState} from 'react';
+import axios from 'axios';
 
 export const ShopContext=createContext();
 
@@ -14,47 +15,70 @@ const ShopContextProvider=(props)=>{
     const [all_product,setAll_product]=useState([])
     const [cartItems, setCartItems]=useState(getDefaultCart());
 
-    useEffect(()=>{
-         fetch('http://localhost:4000/allproducts')
+    const fetchData = async() =>{
+        await fetch('http://localhost:4000/allproducts')
         .then((res)=>res.json())
         .then((data)=>setAll_product(data))
 
         if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:4000/getcart',{
-                method:'POST',
+            // fetch('http://localhost:4000/getcart',{
+            //     method:'POST',
+            //     headers:{
+            //         Accept:'application/form-data',
+            //         'auth-token':`${localStorage.getItem('auth-token')}`,
+            //         'Content-Type':'application/json',
+            //     },
+            //     body: JSON.stringify({}),
+            // })
+            await axios.get('http://localhost:4000/getcart',{
                 headers:{
-                    Accept:'application/form-data',
+                    // Accept:'application/form-data',
                     'auth-token':`${localStorage.getItem('auth-token')}`,
                     'Content-Type':'application/json',
                 },
-                 body:"",
             })
-            .then((res)=>res.json())
+            // .then((res)=>res.json())
             .then((data)=>setCartItems(data))
+            .catch(error => console.error('Error fetching cart:', error));
         }
+    }
+    useEffect(()=>{
+         fetchData();
     },[])
     
-    const addTocart=(itemId)=>{
+    const addTocart=async (itemId)=>{
         setCartItems((prev)=>({...prev,[itemId]:prev[itemId]+1}))
+        console.log("add to  cart",itemId)
         if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:4000/addtocart',{
+            //  const res=await fetch('http://localhost:4000/addtocart',{
+            //     method:'POST',
+            //     headers:{
+            //         Accept:'application/form-data',
+            //         'auth-token':`${localStorage.getItem('auth-token')}`,
+            //         'Content-Type':'Application/json',
+            //     },
+            //     body:JSON.stringify({"itemId":itemId}),
+            // })
+            // console.log('data',res);
+            const res= await axios.post('http://localhost:4000/addTocart',{
+                itemId:itemId,
+            },{
                 method:'POST',
                 headers:{
-                    Accept:'application/form-data',
                     'auth-token':`${localStorage.getItem('auth-token')}`,
                     'Content-Type':'Application/json',
-                },
-                body:JSON.stringify({"itemId":itemId}),
+                }
             })
-            .then((res)=>res.json())
-            .then((data)=>console.log(data))
+            console.log('res',res.data.cart);
+            // .then((res=>console.log(res)))
+            // .catch(error => console.error('Error adding to cart:', error));
         }
     }
     
-    const removeFromcart=(itemId)=>{
+    const removeFromcart=async(itemId)=>{
         setCartItems((prev)=>({...prev,[itemId]:prev[itemId]-1}))
         if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:4000/removefromcart',{
+            await fetch('http://localhost:4000/removefromcart',{
                 method:'POST',
                 headers:{
                     Accept:'application/form-data',
@@ -65,6 +89,7 @@ const ShopContextProvider=(props)=>{
             })
             .then((res)=>res.json())
             .then((data)=>console.log(data))
+            .catch((error) => console.error('Error removefromcart:', error));
         }
     }
     

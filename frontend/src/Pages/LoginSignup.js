@@ -23,7 +23,9 @@ function LoginSignup() {
              'Content-Type':'application/json'
            },
            body:JSON.stringify(formData),
-    }).then((res)=>res.json()).then((data)=>responseData=data)
+    }).then((res)=>res.json())
+    .then((data)=>responseData=data)
+    .catch((error) => console.error('Error fetching in login:', error));
     console.log(responseData);
     if(responseData.success){
       localStorage.setItem('auth-token',responseData.token);
@@ -43,7 +45,9 @@ function LoginSignup() {
             'Content-Type':'application/json'
           },
           body:JSON.stringify(formData),
-   }).then((res)=>res.json()).then((data)=>responseData=data)
+   }).then((res)=>res.json())
+   .then((data)=>responseData=data)
+   .catch((error) => console.error('Error fetching signup:', error));
    console.log(responseData);
 
    if(responseData.success){
