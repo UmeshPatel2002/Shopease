@@ -1,5 +1,10 @@
 .admin{
     display: flex;
+    /* justify-content:; */
+    width: 100vw;
+    max-width: 1500px;
+    /* margin: auto; */
+
 }
 @media(max-width:800px){
     .admin{

@@ -1,29 +1,82 @@
 .navbar{
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    padding: 15px 60px;
+    justify-content:space-between;
+    /* padding: 0px 20px; */
     box-shadow: 0 1px 3px -2px #000;
     margin-bottom: 1px;
+    
+
     background: white;
-    max-width: 1440px;
-    margin: auto;
+    width:100%;
+    max-width: 1500px;
+    overflow: hidden;
+    height:80px;
+
 }
 
+.navbar-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-between;
+    padding: 0px 60px;
+    width:100%;
+    /* max-width: 1500px; */
+    overflow: hidden;
+
+}
+.navbar-logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    cursor: pointer;
+    
+
+}
 .nav-logo{
-    width: 200px;
+    width: 40px;
+    height: 40px;
 }
 .nav-profile{
-    width: 75px;
+    height:90%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap:0;
+   justify-content: center;
+   cursor: pointer;
+}
+.nav-text{
+    
+    margin-block-start:0;
+    margin-block-end:0;
+    font-size: 14px;
+    padding: 0;
+    color:brown;
+}
+.nav-profile img{
+    width: 30px;
+    height: 30px;
 }
 @media(max-width:800px){
     .navbar{
-        padding: 15px 30px;
+        /* padding: 15px 30px; */
+        height:80px;
+    }
+    .navbar-container{
+        padding: 5px 30px;
+
+    }
+    .navbar-logo-name h1{
+        font-size: 20px;
     }
     .nav-logo{
-        width: 150px;
+        width: 40px;
     }
     .nav-profile{
-        width: 60px;
+        width: 30px;
     }
 }

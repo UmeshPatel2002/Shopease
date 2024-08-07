@@ -3,7 +3,7 @@ import Admin from "./Pages/Admin/Admin";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{width:"100vw",maxWidth:"1500px"}}>
       <Navbar/>
       <Admin/>
     </div>

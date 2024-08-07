@@ -43,14 +43,10 @@ const AddProduct=()=>{
         body:formdata,
       });
       responseData = await response.json();
-      // console.log("response",response);
   
-      if (responseData.success) {
-        if (responseData.image_url) {
-          // Updating the product object with the received image URL
+      if (responseData?.success) {
+        if (responseData?.image_url) {
           product.image = responseData.image_url;
-          // console.log('Updated product:', product);
-  
           // Sending the updated product details to the server
           await fetch('http://localhost:4000/addproduct', {
             method: 'POST',
@@ -60,7 +56,7 @@ const AddProduct=()=>{
             },
             body: JSON.stringify(product)
           }).then((res) => res.json()).then((data) => {
-            console.log("Data",data)
+            // console.log("Data",data)
             data.success ? alert("Product Added") : alert("Failed");
           });
         } else {
@@ -98,7 +94,8 @@ const AddProduct=()=>{
         <input 
           value={productDetail.old_price} 
           onChange={changeHandler} 
-          type='text' name='old_price' 
+          type='text' 
+          name='old_price' 
           placeholder='Type here'/> 
         </div>
         <div className='addproduct-itemfield'>
@@ -106,7 +103,8 @@ const AddProduct=()=>{
         <input 
            value={productDetail.new_price} 
            onChange={changeHandler} 
-           type='text' name='new_price' 
+           type='text' 
+           name='new_price' 
            placeholder='Type here'/> 
         </div>
       </div>
