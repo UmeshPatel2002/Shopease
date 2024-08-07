@@ -9,6 +9,9 @@
     margin:auto;
     align-items: center;
 }
+.navbar a{
+    text-decoration: none;
+}
 
 .nav-logo{
     display: flex;
@@ -148,6 +151,7 @@
 @media(max-width:800px){
     .navbar{
         padding: 10px 0px;
+        position: relative;
 
     }
     .nav-dropdown{
@@ -158,12 +162,7 @@
     }
     .nav-menu{
         display:none;
-        height: 80px;
-        width: 100%;
-        position: absolute;
-        background-color: white;
-        justify-content: center;
-        top: 50px; 
+        
     }
     .nav-login-cart{
         gap: 30px;
@@ -180,6 +179,12 @@
     }
     .nav-menu-visible{
         display: flex;
+        height: 80px;
+        width: 100%;
+        position: absolute;
+        background-color: white;
+        justify-content: center;
+        top: 55px; 
     }
     .nav-dropdown.open{
         transform: rotate(90deg);

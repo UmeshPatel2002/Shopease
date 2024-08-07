@@ -115,7 +115,7 @@ app.get('/popularinwomen',async(req,res)=>{
     if (!name || !email || !password) {
         return res.status(400).json({ name,email,password, error: "All fields are required." });
     }
-    
+
     try {
         const user = new User({
             name,
@@ -173,8 +173,7 @@ const fetchUser=async(req,res,next)=>{
         try{
             const data=jwt.verify(token,'secret_ecom')
             req.user=data.user
-            console.log("fetchUser",req.user)
-
+            // console.log("fetchUser",req.user)
             next()
 
         }
@@ -193,36 +192,70 @@ const fetchUser=async(req,res,next)=>{
 //        res.send("Added")
 //   })
 
-app.post('/addtocart',fetchUser, async (req, res) => {
-    const userId=req.user.id;
-    const {itemId } = req.body;
+// app.post('/addtocart',fetchUser, async (req, res) => {
+//     const userId=req.user.id;
+//     const {item } = req.body;
   
+//     try {
+//       let cart = await Cart.findOne({ userId });
+  
+//       if (!cart) {
+//         // If the cart does not exist, create a new one
+//         cart = new Cart({ userId, items: [{ item, quantity: 1 }] });
+//       } else {
+//         // Check if the item already exists in the cart
+//         const itemIndex = cart.items.findIndex(item => item.itemId.toString() === itemId);
+  
+//         if (itemIndex > -1) {
+//           // If the item exists, increase its quantity
+//           cart.items[itemIndex].quantity += 1;
+//         } else {
+//           // If the item does not exist, add it to the cart
+//           cart.items.push({ itemId, quantity: 1 });
+//         }
+//       }
+  
+//       await cart.save();
+//       console.log("updated card data",cart);
+//       res.status(200).json({ message: 'Item added to cart', cart });
+//     } catch (error) {
+//       res.status(500).json({ message: 'Error adding item to cart', error });
+//     }
+//   });
+
+app.post('/addtocart', fetchUser, async (req, res) => {
+    const userId = req.user.id;
+    const { item } = req.body; 
+    console.log(item)// Assuming item contains the entire item object
+    const itemId = item._id; // Extract itemId from the item object
+
     try {
-      let cart = await Cart.findOne({ userId });
-  
-      if (!cart) {
-        // If the cart does not exist, create a new one
-        cart = new Cart({ userId, items: [{ itemId, quantity: 1 }] });
-      } else {
-        // Check if the item already exists in the cart
-        const itemIndex = cart.items.findIndex(item => item.itemId.toString() === itemId);
-  
-        if (itemIndex > -1) {
-          // If the item exists, increase its quantity
-          cart.items[itemIndex].quantity += 1;
+        let cart = await Cart.findOne({ userId });
+        // console.log("cart",cart)
+
+        if (!cart) {
+            // If the cart does not exist, create a new one
+            cart = new Cart({ userId, items: [{ item, quantity: 1 }] });
         } else {
-          // If the item does not exist, add it to the cart
-          cart.items.push({ itemId, quantity: 1 });
+            // Check if the item already exists in the cart
+            const itemIndex = cart.items.findIndex(cartItem => cartItem.item._id.toString() === itemId.toString());
+
+            if (itemIndex > -1) {
+                // If the item exists, increase its quantity
+                cart.items[itemIndex].quantity += 1;
+            } else {
+                // If the item does not exist, add it to the cart
+                cart.items.push({ item, quantity: 1 });
+            }
         }
-      }
-  
-      await cart.save();
-      console.log("updated card data",cart);
-      res.status(200).json({ message: 'Item added to cart', cart });
+
+        await cart.save();
+        console.log("updated cart data", cart);
+        res.status(200).json({ message: 'Item added to cart', cart });
     } catch (error) {
-      res.status(500).json({ message: 'Error adding item to cart', error });
+        res.status(500).json({ message: 'Error adding item to cart', error });
     }
-  });
+});
   
 
 
@@ -230,25 +263,62 @@ app.post('/addtocart',fetchUser, async (req, res) => {
 
 //   creating endpoint to remove product from cartdata
 
-app.post('/removefromcart',fetchUser,async(req,res)=>{
-    let userdata=await User.findOne({_id:req.user.id})
-    if(userdata.cart[req.body.itemId]>0){
-         userdata.cart[req.body.itemId]-=1
+app.patch('/removefromcart', fetchUser, async (req, res) => {
+    const userId = req.user.id;
+    const { item } = req.body; 
+    console.log("remove from  cart",item.item._id); // Assuming item contains the entire item object
+    const itemId = item.item._id // Extract itemId from the item object
+
+    try {
+        let cart = await Cart.findOne({ userId });
+        // console.log("cart", cart);
+
+        if (!cart) {
+            return res.status(404).json({ message: 'Cart not found' });
+        }
+
+        // Check if the item already exists in the cart
+        const itemIndex = cart.items.findIndex(cartItem => cartItem.item._id.toString() === itemId.toString());
+
+        if (itemIndex > -1) {
+            // If the item exists, decrease its quantity
+            cart.items[itemIndex].quantity -= 1;
+
+            if (cart.items[itemIndex].quantity === 0) {
+                // Remove the item from the cart if its quantity is zero
+                cart.items.splice(itemIndex, 1);
+            }
+        } else {
+            return res.status(404).json({ message: 'Item not found in cart' });
+        }
+
+        await cart.save();
+        console.log("updated cart data", cart);
+        res.status(200).json({ message: 'Item removed from cart', cart });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error removing item from cart', error });
     }
-    await User.findOneAndUpdate({_id:req.user.id},{cart:userdata})
-    res.send("Removed")
-})
+});
 
-app.get('/getcart',fetchUser,async(req,res)=>{
-    const {id} = req.query;
-    if(!id) return res.status(403).json({message:"Invalid id"});
+app.get('/getcart', fetchUser, async (req, res) => {
+    const id = req.user.id;
+    console.log("userId", id);
+    
+    if (!id) return res.status(403).json({ message: "Invalid id" });
 
-    let userdata=await User.findById(id);
+    try {
+        let cartdata = await Cart.findOne({ userId: id });
+        console.log("userdata at cart", cartdata);
 
-    if(!userdata) return res.status(404).json({message:"Data not found"});
+        if (!cartdata) return res.status(404).json({ message: "Data not found" });
 
-    return res.status(200).json(userdata);
-})
+        return res.status(200).json(cartdata);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Server error" });
+    }
+});
 
 
 

@@ -86,8 +86,10 @@
         gap: 14px;
         font-size: 10px;
     }
-    .footer-social-icon img{
-        width: 22px;    
+    .footer-icons-container img{
+        width: 20px;  
+        height: 20px;  
+        padding: 0px 0px;
     }
     .footer-copyright{ 
         font-size: 13px;

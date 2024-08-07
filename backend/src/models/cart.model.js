@@ -4,10 +4,8 @@ import mongoose, {Schema} from "mongoose";
 
 
 const CartItemSchema = new Schema({
-  itemId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Item', 
-    required: true 
+  item: { 
+    type:Object,
     },
    quantity:{ 
     type: Number, 
@@ -20,7 +18,8 @@ const cartSchema = new Schema({
   userId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 
-    required: true },
+    required: true 
+   },
     items: [CartItemSchema]
 });
 

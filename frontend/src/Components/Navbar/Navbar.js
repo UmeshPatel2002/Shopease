@@ -19,10 +19,11 @@ const Navbar =()=>{
   
     return (
         <div className='navbar'>
+            <a href="/">
            <div className='nav-logo'>
                <img src={logo} alt=''/>
                <p>ShopEase</p>
-           </div>
+           </div></a>
            <img className='nav-dropdown' onClick={dropdown_toogle} src={nav_dropdown} alt=''/>
            <ul ref={menuRef} className='nav-menu'>
            <li onClick={()=>{setMenu("Shop")}}>

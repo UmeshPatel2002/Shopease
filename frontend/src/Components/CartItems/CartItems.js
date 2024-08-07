@@ -4,9 +4,16 @@ import { ShopContext } from '../../Context/ShopContext'
 import remove_icon from '../Assets/cart_cross_icon.png'
 
 function CartItems() {
-    const {getTotalCartAmount, all_product,cartItems,removeFromcart}=useContext(ShopContext);
-    console.log(all_product);
+    const {getTotalCartItem,getTotalCartAmount,cartItems,removeFromcart}=useContext(ShopContext);
+    // console.log("cartItems at cart page",cartItems);
+    const totalcartItem=getTotalCartItem();
+   
   return (
+
+    <div>{totalcartItem===0?<div className='empty-cart'>
+      <p>No items have been successfully added to the cart</p>
+      <a href='/'><button className='backtohome'>Back to Home</button></a>
+      </div>:
     <div className='cartitems'>
         <div className='cartitems-format-main'>
             <p>Products</p>
@@ -20,21 +27,19 @@ function CartItems() {
         
          {
         
-         all_product.map((e)=>{
-          if(cartItems[e.id]>0){
-            return <div>
+         cartItems?.items?.map((product)=>{
+          
+            return <div key={product._id}>
                    <div className='cartitems-format-main'>
-                   <img className='carticon-product-icon' src={e.image} alt=''/>
-                   <p>{e.name}</p>
-                   <p>${e.new_price}</p>
-                   <button className='cartitem-quantity'> {cartItems[e.id]}</button>
-                   <p>${e.new_price*cartItems[e.id]}</p>
-                   <img className='cartitem-remove-icon' src={remove_icon}  onClick={()=>{removeFromcart(e.id)}} alt=''/>
+                   <img className='carticon-product-icon' src={product?.item?.image} alt=''/>
+                   <p>{product?.item?.name}</p>
+                   <p>${product?.item?.new_price}</p>
+                   <button className='cartitem-quantity'> {product?.quantity}</button>
+                    <p>${product?.item?.new_price*product?.quantity}</p>
+                   <img className='cartitem-remove-icon' src={remove_icon}  onClick={()=>{removeFromcart(product)}} alt=''/>
                    </div>
                    <hr/>
             </div>
-          }
-          return null;
         })} 
         <div className='cartitem-down'>
           <div className='cartitem-total'>
@@ -68,6 +73,7 @@ function CartItems() {
           </div>
         </div>
         
+    </div> }
     </div>
   )
 }
